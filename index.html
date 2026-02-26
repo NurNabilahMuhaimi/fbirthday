@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy 26th Birthday! ⚽❤️</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Cherry+Bomb+One&family=Pacifico&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --mufc-red: #da291c; 
+            --mufc-blue: #004792;
+            --gold: #FBE122;
+        }
+
+        body {
+            background: radial-gradient(circle, rgba(255, 50, 35, 0.7) 0%, rgba(180, 0, 0, 0.9) 100%), 
+                        url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            background-color: #ff3c2e;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+            margin: 0;
+        }
+
+        .music-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255,255,255,0.2);
+            border: 2px solid white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 15px rgba(255,255,255,0.3);
+        }
+
+        .bg-decor {
+            position: absolute;
+            width: 100%; height: 100%;
+            top: 0; left: 0; z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .floating-emoji {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            filter: drop-shadow(0 10px 10px rgba(0,0,0,0.3));
+            animation: float-up 8s infinite linear;
+        }
+
+        @keyframes float-up {
+            from { transform: translateY(110vh) rotate(0deg) scale(0.8); opacity: 0; }
+            20% { opacity: 0.7; }
+            80% { opacity: 0.7; }
+            to { transform: translateY(-20vh) rotate(360deg) scale(1.2); opacity: 0; }
+        }
+
+        #page1 {
+            width: 100%;
+            text-align: center;
+            animation: fadeIn 1s ease;
+            z-index: 2;
+            position: relative;
+        }
+
+        .cake-canvas-wrapper {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            filter: drop-shadow(0 0 35px rgba(251, 225, 34, 0.5));
+            animation: cake-float 3s ease-in-out infinite;
+            margin-bottom: -20px; 
+        }
+
+        @keyframes cake-float {
+            0%, 100% { transform: translateY(0px) rotate(-1deg); }
+            50% { transform: translateY(-15px) rotate(1deg); }
+        }
+
+        .age-badge {
+            position: absolute;
+            top: 10%;
+            right: 5%;
+            background: var(--mufc-blue);
+            color: white;
+            font-family: 'Cherry Bomb One', cursive;
+            font-size: 32px;
+            padding: 5px 15px;
+            border-radius: 50px;
+            border: 3px solid var(--gold);
+            transform: rotate(15deg);
+            z-index: 10;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .birthday-text {
+            font-family: 'Cherry Bomb One', cursive;
+            color: white;
+            font-size: 4.5rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            text-shadow: 3px 3px 0px var(--mufc-blue);
+            animation: lively-bounce 0.5s ease-in-out infinite alternate, rainbow-glow 3s linear infinite;
+        }
+
+        @keyframes lively-bounce {
+            from { transform: scale(1) rotate(-1deg); }
+            to { transform: scale(1.05) rotate(1deg); }
+        }
+
+        @keyframes rainbow-glow {
+            0% { color: #fff; }
+            33% { color: var(--gold); }
+            66% { color: #ff9d9d; }
+            100% { color: #fff; }
+        }
+
+        .btn-glass {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            border-radius: 50px;
+            padding: 12px 35px;
+            font-weight: 700;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(8px);
+            transition: 0.3s;
+        }
+        .btn-glass:hover { background: rgba(255,255,255,0.5); transform: translateY(-3px); }
+
+        #giftOverlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+            backdrop-filter: blur(10px);
+        }
+        .gift-box {
+            width: 150px;
+            height: 150px;
+            cursor: pointer;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: drop-shadow(0 20px 30px rgba(255,255,255,0.2));
+        }
+        .gift-box:hover { transform: scale(1.2) rotate(10deg); }
+
+        #page2 {
+            display: none;
+            width: 95%;
+            max-width: 600px;
+            animation: popUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+        }
+
+        .glass-container {
+            background: rgba(255, 255, 255, 0.1); 
+            backdrop-filter: blur(15px);
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 25px 45px rgba(0,0,0,0.2);
+        }
+
+        .photo-row { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
+        .photo-circle { width: 85px; height: 85px; border-radius: 50%; border: 3px solid white; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .photo-circle img { width: 100%; height: 100%; object-fit: cover; }
+        .message-inner { background: rgba(0, 0, 0, 0.25); border-radius: 30px; padding: 25px; color: white; border: 1px solid rgba(255,255,255,0.1); }
+
+        .calendar-outside {
+            background: white;
+            border-radius: 20px;
+            color: #333;
+            padding: 15px;
+            width: 240px;
+            margin: 0 auto 20px auto;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            transform: rotate(-2deg);
+        }
+        .cal-header {
+            background: var(--mufc-red);
+            color: white;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            padding: 5px 12px;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .cal-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            font-size: 0.8rem;
+        }
+        .cal-day-label { font-weight: bold; color: var(--mufc-blue); }
+        .cal-date { padding: 4px; border-radius: 6px; }
+        .cal-today { 
+            background: var(--gold); 
+            font-weight: bold; 
+            color: var(--mufc-red);
+            border: 1.5px solid var(--mufc-red);
+            transform: scale(1.1);
+        }
+
+        @keyframes popUp { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .kicker-container {
+            position: absolute;
+            bottom: -30px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10%;
+            pointer-events: none;
+        }
+        .kicker { display: flex; flex-direction: column; align-items: center; pointer-events: auto; }
+        .player-img { width: 70px; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.3)); animation: kick-move 0.8s infinite alternate ease-in-out; }
+        .ball-img { 
+            width: 40px; 
+            animation: ball-bounce 0.8s infinite alternate ease-in-out;
+            cursor: pointer;
+            transition: 0.3s;
+            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.4));
+        }
+        @keyframes kick-move { 0% { transform: rotate(-10deg); } 100% { transform: rotate(15deg); } }
+        @keyframes ball-bounce { 0% { transform: translate(0, 0); } 100% { transform: translate(20px, -30px); } }
+        .right-kicker .player-img { transform: scaleX(-1); }
+        .right-kicker .ball-img { animation-name: ball-bounce-right; }
+        @keyframes ball-bounce-right { 0% { transform: translate(0, 0); } 100% { transform: translate(-20px, -30px); } }
+        
+        .goal-popup {
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Cherry Bomb One';
+            font-size: 120px;
+            color: var(--gold);
+            text-shadow: 0 0 20px rgba(0,0,0,0.5);
+            -webkit-text-stroke: 4px var(--mufc-red);
+            z-index: 3000;
+            pointer-events: none;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic" loop>
+        <source src="nastelbom-happy-birthday-471481.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="music-toggle" onclick="toggleMusic()">
+        <span id="musicIcon">🎵</span>
+    </div>
+
+    <div class="bg-decor" id="bgDecor"></div>
+
+    <div id="page1">
+        <div class="cake-canvas-wrapper" onclick="startUnboxing()">
+            <div class="age-badge">26th</div>
+            <canvas id="cakeCanvas" width="450" height="360"></canvas>
+        </div>
+        <h1 class="birthday-text">Happy Birthday</h1>
+        <button class="btn btn-glass" onclick="startUnboxing()">click here</button>
+
+        <div class="kicker-container">
+            <div class="kicker left-kicker" onclick="kickBall(this)">
+                <img src="https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Soccer%20ball/3D/soccer_ball_3d.png" class="ball-img">
+                <img src="https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Man%20running/Default/3D/man_running_3d_default.png" class="player-img">
+            </div>
+            <div class="kicker right-kicker" onclick="kickBall(this)">
+                <img src="https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Soccer%20ball/3D/soccer_ball_3d.png" class="ball-img">
+                <img src="https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Man%20running/Default/3D/man_running_3d_default.png" class="player-img">
+            </div>
+        </div>
+    </div>
+
+    <div id="giftOverlay" onclick="openGift()">
+        <img src="https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Wrapped%20gift/3D/wrapped_gift_3d.png" class="gift-box">
+        <h2 class="mt-4" style="font-family: 'Cherry Bomb One';">Tap to Open!</h2>
+    </div>
+
+    <div id="page2">
+        <div class="glass-container">
+            <div class="photo-row">
+                <div class="photo-circle"><img src="15712711-51a9-42d4-b799-bf0c66ce86a2.jfif"></div>
+                <div class="photo-circle"><img src="c9fc7aa5-8f6e-400d-9e17-a776b13d5c88.jfif"></div>
+                <div class="photo-circle"><img src="1b888e98-c1e5-4f5f-aa1d-86e24c541438.jfif"></div>
+            </div>
+
+            <div class="message-inner">
+                <h2 class="mb-3" style="font-family: 'Cherry Bomb One'; color: var(--gold); font-size: 1.6rem;">Happy Birthday❤️</h2>
+                <p style="font-size: 1.1rem; line-height: 1.6; font-weight: 500;">
+                    <strong>I hope today you feel appreciated, loved and at peace. I wish you nothing but growth and life that treats you kindly and tak payah la usha lain dengan i je jangan gerak gi mana mana HAHAHAAHAHAHAHAHAHAHAHAHAHAHAHA </strong><br>
+                </p>
+            </div>
+        </div>
+
+        <div class="calendar-outside">
+            <div class="cal-header">
+                <span>FEBRUARY</span>
+                <span>2026</span>
+            </div>
+            <div class="cal-grid" id="calendarGrid">
+                <div class="cal-day-label">S</div><div class="cal-day-label">M</div><div class="cal-day-label">T</div><div class="cal-day-label">W</div><div class="cal-day-label">T</div><div class="cal-day-label">F</div><div class="cal-day-label">S</div>
+            </div>
+        </div>
+
+        <button class="btn btn-sm btn-outline-light rounded-pill px-4" onclick="backToMain()">Back❤️</button>
+    </div>
+
+    <div id="goalText" class="goal-popup">GOAL!!!</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+        const music = document.getElementById('bgMusic');
+
+        function toggleMusic() {
+            if (music.paused) {
+                // We add a console log to see if there's an error in the browser console
+                music.play().catch(e => console.log("Music play failed:", e));
+                document.getElementById('musicIcon').innerText = '⏸️';
+            } else {
+                music.pause();
+                document.getElementById('musicIcon').innerText = '🎵';
+            }
+        }
+
+        function kickBall(el) {
+            const ball = el.querySelector('.ball-img');
+            ball.style.transition = '0.6s cubic-bezier(0.17, 0.67, 0.83, 0.67)';
+            ball.style.transform = 'translateY(-600px) rotate(1080deg) scale(2.5)';
+            ball.style.opacity = '0';
+            
+            document.getElementById('goalText').style.display = 'block';
+            confetti({ particleCount: 150, spread: 100, origin: { y: 0.4 }, colors: ['#DA291C', '#FFFFFF', '#FBE122'] });
+
+            setTimeout(() => {
+                ball.style.transition = '0s';
+                ball.style.transform = '';
+                ball.style.opacity = '1';
+                document.getElementById('goalText').style.display = 'none';
+            }, 1200);
+        }
+
+        function startUnboxing() {
+            // This button click officially starts the music
+            if (music.paused) toggleMusic();
+            
+            document.getElementById('page1').style.display = 'none';
+            document.getElementById('giftOverlay').style.display = 'flex';
+        }
+
+        function openGift() {
+            confetti({ particleCount: 400, spread: 120, origin: { y: 0.5 }, colors: ['#DA291C', '#004792', '#FBE122', '#FFFFFF'] });
+            document.getElementById('giftOverlay').style.display = 'none';
+            document.getElementById('page2').style.display = 'block';
+        }
+
+        function backToMain() {
+            document.getElementById('page2').style.display = 'none';
+            document.getElementById('page1').style.display = 'block';
+        }
+
+        function buildCalendar() {
+            const grid = document.getElementById('calendarGrid');
+            const totalDays = 28;
+            for(let d=1; d<=totalDays; d++) {
+                const isToday = (d === 26) ? 'cal-today' : '';
+                grid.innerHTML += `<div class="cal-date ${isToday}">${d}</div>`;
+            }
+        }
+        buildCalendar();
+
+        const bg = document.getElementById('bgDecor');
+        const assets = [
+            'https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Soccer%20ball/3D/soccer_ball_3d.png',
+            'https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Red%20heart/3D/red_heart_3d.png',
+            'https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Trophy/3D/trophy_3d.png',
+            'https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Sparkles/3D/sparkles_3d.png'
+        ];
+        
+        for (let i = 0; i < 15; i++) {
+            let img = document.createElement('img');
+            img.className = 'floating-emoji';
+            img.src = assets[Math.floor(Math.random() * assets.length)];
+            img.style.left = Math.random() * 100 + 'vw';
+            img.style.animationDelay = Math.random() * 8 + 's';
+            img.style.width = (Math.random() * 30 + 30) + 'px';
+            bg.appendChild(img);
+        }
+
+        const canvas = document.getElementById("cakeCanvas");
+        const ctx = canvas.getContext("2d");
+        const cx = canvas.width / 2;
+        const cy = canvas.height - 60;
+        let time = 0;
+
+        function animate() {
+            time += 0.05;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawLayer(0, 140, 70, "#3d1d11", "#522b1c", true);
+            drawLayer(75, 110, 60, "#522b1c", "#6b3e2e", true);
+            drawLayer(140, 80, 50, "#3d1d11", "#522b1c", true);
+            drawCandle(-55, 175); drawCandle(55, 175); drawCandle(0, 195); drawCandle(-28, 170); drawCandle(28, 170);
+            requestAnimationFrame(animate);
+        }
+
+        function drawLayer(yOff, w, h, bodyCol, topCol, hasDrip) {
+            ctx.beginPath(); ctx.ellipse(cx, cy - yOff + 10, w, h/2, 0, 0, Math.PI * 2);
+            ctx.fillStyle = "rgba(0,0,0,0.2)"; ctx.fill();
+            ctx.fillStyle = bodyCol; ctx.fillRect(cx - w, cy - yOff - 60, w * 2, 60);
+            ctx.beginPath(); ctx.ellipse(cx, cy - yOff - 60, w, h/2, 0, 0, Math.PI * 2);
+            ctx.fillStyle = topCol; ctx.fill();
+            if(hasDrip) {
+                ctx.fillStyle = "#26110a";
+                for(let i = -w; i <= w; i += 25) {
+                    let dripHeight = 15 + Math.sin(i + time) * 10;
+                    ctx.beginPath(); ctx.arc(cx + i, cy - yOff - 55, 6, 0, Math.PI * 2); ctx.fill();
+                    ctx.fillRect(cx + i - 3, cy - yOff - 60, 6, dripHeight);
+                }
+            }
+            ctx.beginPath(); ctx.ellipse(cx, cy - yOff, w, h/2, 0, 0, Math.PI * 2);
+            ctx.fillStyle = bodyCol; ctx.fill();
+        }
+
+        function drawCandle(x, y) {
+            ctx.fillStyle = "#fff"; ctx.fillRect(cx + x - 4, cy - y - 40, 8, 40);
+            ctx.fillStyle = "#da291c"; ctx.fillRect(cx + x - 4, cy - y - 30, 8, 4);
+            let flicker = Math.sin(time * 5) * 2;
+            ctx.beginPath(); ctx.ellipse(cx + x, cy - y - 55, 6 + flicker/2, 12 + flicker, 0, 0, Math.PI * 2);
+            ctx.fillStyle = "#ffcc00"; ctx.fill();
+        }
+
+        animate();
+    </script>
+</body>
+</html>
